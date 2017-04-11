@@ -15,7 +15,8 @@ class dialog(QDialog, gui_class.Ui_Dialog):
         self.players=[]
         self.walls=[]
         self.states=[]
-        
+        self.val=None
+
         self.scene = QGraphicsScene()
 
         self.t=QTimer()
@@ -76,15 +77,16 @@ class dialog(QDialog, gui_class.Ui_Dialog):
 
     def click(self, btn):
         self.val=self.horizontalSlider.value()
-        self.drawState(self.val)
-        self.t.start()
+        if self.val<len(self.states)-1:
+            self.drawState(self.val)
+            self.t.start()
 
     def nextState(self):
         self.val=self.horizontalSlider.value()+1
         self.horizontalSlider.setValue(self.val)
         self.drawState(self.val)
 
-        if self.val==len(self.states)-1:
+        if self.val>=len(self.states)-1:
             self.t.stop()
 
     def valChanged(self, val):
