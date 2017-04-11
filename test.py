@@ -105,19 +105,10 @@ class TestPlayer(unittest.TestCase):
     def testInterface(self):
         testing=Game("arenas/testing", "arenas/testing_out")
 
-        player=PlayerControl(1, testing)
-        self.assertEqual(player.get_player(), 1)
-        playerInst=PlayerInstance(player)
-        testing.add_player(playerInst)
-
-        player=PlayerControl(2, testing)
-        playerInst=PlayerInstance(player)
-        testing.add_player(playerInst)
-
-        self.assertEqual(testing.get_players()[0].get_iteration(), 1)
-        self.assertEqual(testing.get_players()[0].no_iterations(), 10)
-        self.assertEqual(testing.get_players()[0].get_timeout(), 2)
-        self.assertEqual(testing.get_players()[0].no_players(), 2)
+        self.assertEqual(testing.get_players()[0][2]._pc.get_iteration(), 1)
+        self.assertEqual(testing.get_players()[0][2]._pc.no_iterations(), 10)
+        self.assertEqual(testing.get_players()[0][2]._pc.get_timeout(), 2)
+        self.assertEqual(testing.get_players()[0][2]._pc.no_players(), 2)
 
         boxes=[(0,0, -1),
                 (1,2, -1),
@@ -125,19 +116,19 @@ class TestPlayer(unittest.TestCase):
                 (2,0, 1),
                 (0,3, 2)]
         for x,y,val in boxes:
-            self.assertEqual(testing.get_players()[0].get_square(x, y), val)
+            self.assertEqual(testing.get_players()[0][2]._pc.get_square(x, y), val)
 
-        test.next_iteration()
+        testing.next_iteration()
         # |# xx|     |# x |
         # |  x | --> |  xx|
         # | # #| --> | # #|
         # |ooo |     |ooo |
 
-        testing.get_players()[0].move(2, 0,  2, 1)
-        testing.get_players()[0].move(2, 1,  2, 2)
-        testing.get_players()[0].move(3, 0,  3, 1)
-        testing.get_players()[1].move(2, 3,  2, 2)
-        testing.get_players()[0].move(0, 3,  0, 2) # moving enemious ant
+        testing.get_players()[0][2]._pc.move(2, 0,  2, 1)
+        testing.get_players()[0][2]._pc.move(2, 1,  2, 2)
+        testing.get_players()[0][2]._pc.move(3, 0,  3, 1)
+        testing.get_players()[1][2]._pc.move(2, 3,  2, 2)
+        testing.get_players()[0][2]._pc.move(0, 3,  0, 2) # trying to move enemious ant
 
 
         boxes=[(0,0, -1),
@@ -147,22 +138,22 @@ class TestPlayer(unittest.TestCase):
                 (2,1, 1),
                 (0,3, 2)]
         for x,y,val in boxes:
-            self.assertEqual(testing.get_players()[0].get_square(x, y), val)
+            self.assertEqual(testing.get_players()[0][2]._pc.get_square(x, y), val)
 
 
-        self.assertEqual(testing.get_players()[0].get_iteration(), 2)
+        self.assertEqual(testing.get_players()[0][2]._pc.get_iteration(), 2)
 
-        walls=testing.get_players()[0].get_walls()
+        walls=testing.get_players()[0][2]._pc.get_walls()
         self.assertEqual(walls[3][0], -1)
-        self.assertEqual(walls[3][2], -1)
+        self.assertEqual(walls[3][2]._pc, -1)
         self.assertNotTrue(2 in walls)
 
-        ants=testing.get_players()[0].get_ants()
+        ants=testing.get_players()[0][2]._pc.get_ants()
         self.assertEqual(ants[2][0], 1)
         self.assertEqual(ants[0][3], 2)
         self.assertNotTrue(2 in ants[0])
 
-        last_moved=testing.get_players()[0].last_moved()
+        last_moved=testing.get_players()[0][2]._pc.last_moved()
         self.assertEqual(last_moved[3][0], (1,3,1))
         self.assertNotTrue(0 in last_moved)
         self.assertNotTrue(1 in last_moved)
