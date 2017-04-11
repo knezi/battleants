@@ -83,7 +83,7 @@ class TestGame(unittest.TestCase):
         self.assertNotTrue(2 in last_moved)
 
     def testCyclest(self):
-        testing=Game("arenas/testing_cycle", "arenas_testing_cycle_out")
+        testing=Game("arenas/testing_cycle", "arenas/testing_cycle_out")
         testing.move(0, 0,  1, 0)
         testing.move(1, 0,  1, 1)
         testing.move(1, 1,  0, 1)
@@ -99,6 +99,13 @@ class TestGame(unittest.TestCase):
         self.assertEqual(testing.get_square(0, 1), 1)
         self.assertEqual(testing.get_square(2, 0), 1)
         self.assertEqual(testing.get_square(2, 1), 1)
+
+    def testKill(self):
+        testing=Game("arenas/testing_kills", "arenas/testing_kills_out")
+        testing.next_iteration()
+
+        self.assertEqual(list(testing.last_kills()), [(1, 0, 2)])
+        self.assertEqual(testing.get_square(1, 0),  0)
 
 
 class TestPlayer(unittest.TestCase):

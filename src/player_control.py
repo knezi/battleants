@@ -35,3 +35,6 @@ class PlayerControl():
 
     def last_moves(self):
         return self._game.last_moves()
+
+    def last_kills(self):
+        return self._game.last_kills()

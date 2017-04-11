@@ -26,6 +26,7 @@ IN FILES
 ========
 timeoutPerPlayer in secs
 numberOfIterations
+ants needed to kill
 width height
 
 noPlayers

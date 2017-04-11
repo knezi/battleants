@@ -5,6 +5,7 @@ from src.box_container import BoxContainer
 
 class Game():
     def __init__(self, in_file, out_file):
+        self._out_file=out_file
         try:
             with open(in_file, "r") as input:
                 # load parameters
@@ -13,11 +14,14 @@ class Game():
                 self._iterations=int(input.readline())
                 self._current_iteration=1
 
+                self._needed_to_kill=int(input.readline())
+
                 self._width,self._height=(int(e) for e in input.readline().split(" "))
 
                 self._moves_buffer=BoxContainer(self._width, self._height)
                 # moves_buffer of previous iteration (not executed moves are skipped)
                 self._last_moves=BoxContainer(self._width, self._height)
+                self._died=BoxContainer(self._width, self._height)
                 input.readline()
 
 
@@ -51,6 +55,16 @@ class Game():
             print("Problems reading input file {}\n".format(in_file))
             raise e
 
+        # prepare out file
+        with open(self._out_file, "w") as w:
+            for pl in self._players:
+                w.write("{} {} {} {}\n".format(pl[0], *pl[1]))
+            w.write("\n")
+
+            for x,y,_d in self._walls:
+                w.write("{} {}\n".format(x,y))
+            w.write("\n")
+
 
 
     """ Move an ant from x,y to x_new,y_new.
@@ -73,6 +87,29 @@ class Game():
         # prepare next iteration
         self._moves_buffer.clear()
         self._current_iteration+=1
+
+        self._died.clear()
+        for x,y,pl in self._ants:
+            surr=0
+
+            for i in range(-1,2):
+                for j in range(-1,2):
+                    if i==0 and j==0:
+                        continue
+                    a=self._ants.get(x+i,y+j)
+                    surr+=1 if a!=None and a!=pl  else 0
+
+
+            if surr>=self._needed_to_kill:
+                self._ants.remove(x,y)
+                self._died.insert(x,y,pl)
+        
+
+        # output current iteration
+        with open(self._out_file, "a") as w:
+            for x,y,pl in self._ants:
+                w.write("{} {} {}\n".format(pl,x,y))
+            w.write("\n")
 
         if self._current_iteration>self._iterations:
             return False
@@ -114,6 +151,9 @@ class Game():
     """ return a box container with moves executed in the last iteration """
     def last_moves(self):
         return self._last_moves
+
+    def last_kills(self):
+        return self._died
 
 
 if __name__=="__main__":
