@@ -1,0 +1,42 @@
+DEP
+===
+PyQT 4
+Python 3
+
+DATA FILES
+==========
+player1 R1 G1 B1
+...
+playern Rn Gn Bn
+
+wallx1 wally1
+..
+wallxm wallym
+
+plx xx yx # state1a
+
+plx xx yx # state2
+
+...
+
+# state z
+
+
+IN FILES
+========
+timeoutPerPlayer in secs
+numberOfIterations
+width height
+
+noPlayers
+name1 R1 G1 B1
+x1 y1
+x2 y2
+
+...
+name2 R2 G2 B2
+
+wallx1 wally1
+...
+wallxm wallym
+^$
