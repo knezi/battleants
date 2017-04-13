@@ -41,7 +41,6 @@ class TestGame(unittest.TestCase):
         for x,y,val in boxes:
             self.assertEqual(testing.get_square(x, y), val)
 
-        testing.next_iteration()
         # |# xx|     |# x |
         # |  x | --> |  xx|
         # | # #| --> | # #|
@@ -53,11 +52,12 @@ class TestGame(unittest.TestCase):
         testing.move(2, 3,  2, 2)
         testing.move(0, 3,  1, 3)
 
+        testing.next_iteration()
 
         boxes=[(0,0, -1),
                 (1,2, -1),
                 (3,3, 0),
-                (2,0, 0),
+                (2,0, 1),
                 (2,1, 1),
                 (0,3, 2)]
         for x,y,val in boxes:
@@ -67,23 +67,37 @@ class TestGame(unittest.TestCase):
         self.assertEqual(testing.get_iteration(), 2)
 
         walls=testing.get_walls()
-        self.assertEqual(walls[3][0], -1)
-        self.assertEqual(walls[3][2], -1)
-        self.assertNotTrue(2 in walls)
+        self.assertEqual(walls.get(3,0), None)
+        self.assertEqual(walls.get(3,2), -1)
 
         ants=testing.get_ants()
-        self.assertEqual(ants[2][0], 1)
-        self.assertEqual(ants[0][3], 2)
-        self.assertNotTrue(2 in ants[0])
+        self.assertEqual(ants.get(2,0), 1)
+        self.assertEqual(ants.get(0,3), 2)
+        self.assertEqual(ants.get(3,0), None)
 
-        last_moved=testing.last_moved()
-        self.assertEqual(last_moved[3][0], (1,3,1))
-        self.assertNotTrue(0 in last_moved)
-        self.assertNotTrue(1 in last_moved)
-        self.assertNotTrue(2 in last_moved)
+        last_moves=testing.last_moves()
+        self.assertEqual(last_moves.get(3,0), (3,1))
+        self.assertEqual(last_moves.get(2,2), None)
+        self.assertEqual(last_moves.get(0,3), None)
 
     def testCyclest(self):
+        # not moving cycle
         testing=Game("arenas/testing_cycle", "arenas/testing_cycle_out")
+        testing.move(0, 0,  1, 0)
+        testing.move(1, 0,  1, 1)
+        testing.move(1, 1,  0, 1)
+        testing.move(0, 1,  0, 0)
+
+
+        testing.next_iteration()
+
+        self.assertEqual(testing.get_square(0, 0), 1)
+        self.assertEqual(testing.get_square(1, 1), 1)
+        self.assertEqual(testing.get_square(1, 0), 2)
+        self.assertEqual(testing.get_square(0, 1), 2)
+
+        # not moving cycle with additional "branches"
+        testing=Game("arenas/testing_cycle", "arenas/testing_cycle_out2")
         testing.move(0, 0,  1, 0)
         testing.move(1, 0,  1, 1)
         testing.move(1, 1,  0, 1)
@@ -93,10 +107,10 @@ class TestGame(unittest.TestCase):
 
         testing.next_iteration()
 
-        self.assertEqual(testing.get_square(0, 0), 2)
-        self.assertEqual(testing.get_square(1, 1), 2)
-        self.assertEqual(testing.get_square(1, 0), 1)
-        self.assertEqual(testing.get_square(0, 1), 1)
+        self.assertEqual(testing.get_square(0, 0), 1)
+        self.assertEqual(testing.get_square(1, 1), 1)
+        self.assertEqual(testing.get_square(1, 0), 2)
+        self.assertEqual(testing.get_square(0, 1), 2)
         self.assertEqual(testing.get_square(2, 0), 1)
         self.assertEqual(testing.get_square(2, 1), 1)
 
@@ -125,7 +139,6 @@ class TestPlayer(unittest.TestCase):
         for x,y,val in boxes:
             self.assertEqual(testing.get_players()[0][2]._pc.get_square(x, y), val)
 
-        testing.next_iteration()
         # |# xx|     |# x |
         # |  x | --> |  xx|
         # | # #| --> | # #|
@@ -137,11 +150,12 @@ class TestPlayer(unittest.TestCase):
         testing.get_players()[1][2]._pc.move(2, 3,  2, 2)
         testing.get_players()[0][2]._pc.move(0, 3,  0, 2) # trying to move enemious ant
 
+        testing.next_iteration()
 
         boxes=[(0,0, -1),
                 (1,2, -1),
                 (3,3, 0),
-                (2,0, 0),
+                (2,0, 1),
                 (2,1, 1),
                 (0,3, 2)]
         for x,y,val in boxes:
@@ -151,20 +165,20 @@ class TestPlayer(unittest.TestCase):
         self.assertEqual(testing.get_players()[0][2]._pc.get_iteration(), 2)
 
         walls=testing.get_players()[0][2]._pc.get_walls()
-        self.assertEqual(walls[3][0], -1)
-        self.assertEqual(walls[3][2]._pc, -1)
-        self.assertNotTrue(2 in walls)
+        self.assertEqual(walls.get(3,0), None)
+        self.assertEqual(walls.get(3,2), -1)
+        self.assertEqual(walls.get(2,2), None)
 
         ants=testing.get_players()[0][2]._pc.get_ants()
-        self.assertEqual(ants[2][0], 1)
-        self.assertEqual(ants[0][3], 2)
-        self.assertNotTrue(2 in ants[0])
+        self.assertEqual(ants.get(2,0), 1)
+        self.assertEqual(ants.get(0,3), 2)
+        self.assertEqual(ants.get(3,2), None)
 
-        last_moved=testing.get_players()[0][2]._pc.last_moved()
-        self.assertEqual(last_moved[3][0], (1,3,1))
-        self.assertNotTrue(0 in last_moved)
-        self.assertNotTrue(1 in last_moved)
-        self.assertNotTrue(2 in last_moved)
+        last_moves=testing.get_players()[0][2]._pc.last_moves()
+        self.assertEqual(last_moves.get(3,0), (3,1))
+        self.assertEqual(last_moves.get(0,0), None)
+        self.assertEqual(last_moves.get(1,0), None)
+        self.assertEqual(last_moves.get(2,0), None)
 
 
 

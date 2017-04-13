@@ -62,7 +62,7 @@ class dialog(QDialog, gui_class.Ui_Dialog):
             text.setDefaultTextColor(self.colours[i+2][2])
             text.setX(i*100)
 
-        text=self.scene.addText(str(state+1)+"/"+str(len(self.states)))
+        text=self.scene.addText(str(state)+"/"+str(len(self.states)-1))
         text.setDefaultTextColor(QColor(255,255,255))
         text.setX(500)
 

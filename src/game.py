@@ -1,6 +1,8 @@
 from src.player_control import PlayerControl
+from import_file import import_file
 from src.player_instance import PlayerInstance
 from src.box_container import BoxContainer
+from import_file.import_file import import_file
 
 
 class Game():
@@ -16,9 +18,11 @@ class Game():
 
                 self._needed_to_kill=int(input.readline())
 
-                self._width,self._height=(int(e) for e in input.readline().split(" "))
+                self._width,self._height=tuple(int(e) for e in input.readline().strip().split(" "))
+                self._nest=tuple(int(e) for e in input.readline().strip().split(" ")) #-1,-1 for no nest
 
                 self._moves_buffer=BoxContainer(self._width, self._height)
+                self._seen=BoxContainer(self._width, self._height)
                 # moves_buffer of previous iteration (not executed moves are skipped)
                 self._last_moves=BoxContainer(self._width, self._height)
                 self._died=BoxContainer(self._width, self._height)
@@ -32,9 +36,12 @@ class Game():
                 for curr_pl in range(1,int(input.readline())+1):
                     # create an instance of a player
                     line=input.readline().strip().split(" ")
+                    algo=input.readline().strip().split(" ")
+
+                    algo_class=import_file(algo[0]).__dict__[algo[1]]
 
                     pc=PlayerControl(curr_pl, self)
-                    pi=PlayerInstance(pc) # TODO FOR ALGORITHMS
+                    pi=algo_class(pc)
                     self._players.append([line[0], (int(e) for e in line[1:]), pi])
 
                     # create ants
@@ -65,6 +72,9 @@ class Game():
                 w.write("{} {}\n".format(x,y))
             w.write("\n")
 
+            for x,y,pl in self._ants:
+                w.write("{} {} {}\n".format(pl,x,y))
+            w.write("\n")
 
 
     """ Move an ant from x,y to x_new,y_new.
@@ -72,14 +82,60 @@ class Game():
     def move(self, x, y, x_new, y_new):
         self._moves_buffer.insert(x,y,(x_new, y_new))
 
+    """ recursively decide whether x,y is to be moved
+        return: False   was not moved
+                True    was moved """
+    def _dfs_free_moves(self, x, y):
+        if self._seen.get(x, y)==1:
+            return False # still in the stack -> cycle
+        elif self._seen.get(x, y)==2:
+            return True if self._moves_buffer.get(x,y)!=None else False
+        self._seen.insert(x,y,1)
+
+        col=[]
+        x_new,y_new=self._moves_buffer.get(x,y)
+        for i,j in ((-1,0), (1,0), (0,-1), (0,1)):
+            if x_new+i>=0 and x_new+i<self._width and \
+                y_new+j>=0 and y_new+j<self._height and \
+                self._moves_buffer.get(x_new+i,y_new+j)==(x_new,y_new):
+                col.append((x_new+i, y_new+j))
+
+        # print(x,y,col,x_new,y_new)
+
+        if self._ants.get(x_new, y_new)==None:
+            target_free=True
+        else:
+            target_move=self._moves_buffer.get(x_new, y_new)
+            #  target stays          wants goes against     is already seen -> cycle  
+            if target_move==None or target_move==(x,y):
+                target_free=False
+            else:
+                # print("CALLING {} {}".format(x_new,y_new))
+                target_free=self._dfs_free_moves(x_new, y_new)
+                # print(target_free)
+
+        self._seen.insert(x,y,2)
+        if len(col)==1 and target_free:
+            self._last_moves.insert(x, y, (x_new, y_new))
+            return True
+        else:
+            for x_rem,y_rem in col:
+                self._moves_buffer.remove(x_rem, y_rem)
+            return False
+
+
     """ flush buffer - execute possible moves & move onto the following iteration
         return: True  - keep going
                 False - last iteration"""
     def next_iteration(self):
-        # TODO test of impossible moves
         self._last_moves.clear()
+        self._seen.clear()
         for x,y,(x_new,y_new) in self._moves_buffer:
-            self._last_moves.insert(x, y, (x_new, y_new))
+            # BoxContainer does not mind if we remove some values while iterating
+            self._dfs_free_moves(x, y)
+
+        # update current position of ants
+        for x,y,(x_new,y_new) in self._last_moves:
             self._ants.insert(x_new, y_new, self._ants.get(x, y))
             self._ants.remove(x,y)
 
@@ -88,6 +144,7 @@ class Game():
         self._moves_buffer.clear()
         self._current_iteration+=1
 
+        # kills
         self._died.clear()
         for x,y,pl in self._ants:
             surr=0
@@ -101,8 +158,27 @@ class Game():
 
 
             if surr>=self._needed_to_kill:
-                self._ants.remove(x,y)
                 self._died.insert(x,y,pl)
+
+        for x,y, in self._died:
+            self._ants.remove(x,y)
+
+        # newborns
+        if self._nest[0]!=-1 and self._ants.get(*self._nest)==None:
+            pl=[0 for x in range(self.no_players()+1)]
+            for x in range(-1,2):
+                for y in range(-1,2):
+                    a=self._ants.get(self._nest[0]+x,self._nest[1]+y)
+                    if a!=None:
+                        pl[a]+=1
+
+            bestpl=0
+            for x in range(1,len(pl)):
+                if pl[bestpl]<pl[x]:
+                    bestpl=x
+
+            if bestpl!=0:
+                self._ants.insert(*self._nest, bestpl)
         
 
         # output current iteration
@@ -116,6 +192,15 @@ class Game():
         return True
 
     # getters
+    def get_nest(self):
+        return self._nest
+
+    def get_width(self):
+        return self._width
+
+    def get_height(self):
+        return self._height
+
     def get_walls(self):
         return self._walls
 

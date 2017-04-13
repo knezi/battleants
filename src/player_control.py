@@ -8,9 +8,24 @@ class PlayerControl():
 
     # interface for algorithms
     def move(self, x, y, x_new, y_new):
-        # my ant
+        if abs(x-x_new)+abs(y-y_new)!=1:
+            return
+    
+        if x<0 or x>=self._game.get_width() or \
+            y<0 or y>=self._game.get_height():
+            return
+
         if self._game.get_square(x,y)==self._player:
             self._game.move(x, y, x_new, y_new)
+
+    def get_nest(self):
+        return self._game.get_nest()
+
+    def get_width(self):
+        return self._game.get_width()
+
+    def get_height(self):
+        return self._game.get_height()
 
     def get_walls(self):
         return self._game.get_walls()

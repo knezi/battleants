@@ -2,15 +2,18 @@
 10
 5
 3 2
+-1 -1
 
 2
 Honza 255 0 0
+src/player_instance.py PlayerInstance
 0 0
 1 1
 2 0
 2 1
 
 Kája 0 255 255
+src/player_instance.py PlayerInstance
 1 0
 0 1
 

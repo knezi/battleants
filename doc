@@ -2,6 +2,7 @@ DEP
 ===
 PyQT 4
 Python 3
+https://pypi.python.org/pypi/import_file
 
 DATA FILES
 ==========
@@ -28,14 +29,18 @@ timeoutPerPlayer in secs
 numberOfIterations
 ants needed to kill
 width height
+x y of newborn
 
 noPlayers
 name1 R1 G1 B1
+path class
 x1 y1
 x2 y2
 
 ...
 name2 R2 G2 B2
+path class
+...
 
 wallx1 wally1
 ...
