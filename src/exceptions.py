@@ -1,5 +1,5 @@
 class OutOfRangeError(Exception):
-    """Exception raised when accessing non-existing element in a BoxContainer
+    """Exception raised when accessing non-existing position in a BoxContainer
 
     Attributes:
         expression -- input expression in which the error occurred

@@ -11,11 +11,12 @@ class PlayerControl():
         if abs(x-x_new)+abs(y-y_new)!=1:
             return
     
-        if x<0 or x>=self._game.get_width() or \
-            y<0 or y>=self._game.get_height():
+        if x_new<0 or x_new>=self._game.get_width() or \
+            y_new<0 or y_new>=self._game.get_height():
             return
 
-        if self._game.get_square(x,y)==self._player:
+        if self._game.get_square(x,y)==self._player and \
+            self._game.get_square(x_new,y_new)>=0:
             self._game.move(x, y, x_new, y_new)
 
     def get_nest(self):

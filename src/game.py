@@ -160,7 +160,7 @@ class Game():
             if surr>=self._needed_to_kill:
                 self._died.insert(x,y,pl)
 
-        for x,y, in self._died:
+        for x,y,_ in self._died:
             self._ants.remove(x,y)
 
         # newborns
