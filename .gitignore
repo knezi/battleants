@@ -2,3 +2,6 @@ gui_class.py
 .*swp
 .*swo
 __pycache__
+*/*.html
+arenas/*_out
+arenas/*_out2
