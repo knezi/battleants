@@ -6,7 +6,10 @@ from import_file.import_file import import_file
 
 
 class Game():
+    """ Class that handles logic of the game"""
     def __init__(self, in_file, out_file):
+        """ in_file - arena in the correct input fromat
+            out_file - the output file of the game"""
         self._out_file=out_file
         try:
             with open(in_file, "r") as input:
@@ -77,15 +80,16 @@ class Game():
             w.write("\n")
 
 
-    """ Move an ant from x,y to x_new,y_new.
-    Multiple moves of an ant are overwritten by the last one """
     def move(self, x, y, x_new, y_new):
+        """ Move an ant from x,y to x_new,y_new.
+        Multiple moves of an ant are overwritten by the last one
+        It doesn't check whether a move is correct (this is done by PlayerControl)"""
         self._moves_buffer.insert(x,y,(x_new, y_new))
 
-    """ recursively decide whether x,y is to be moved
-        return: False   was not moved
-                True    was moved """
     def _dfs_free_moves(self, x, y):
+        """ recursively decide whether x,y is to be moved
+            return: False   was not moved
+                    True    was moved """
         if self._seen.get(x, y)==1:
             return False # still in the stack -> cycle
         elif self._seen.get(x, y)==2:
@@ -124,10 +128,12 @@ class Game():
             return False
 
 
-    """ flush buffer - execute possible moves & move onto the following iteration
-        return: True  - keep going
-                False - last iteration"""
     def next_iteration(self):
+        """ flush buffer - execute possible moves & move onto the following iteration:
+            kill ants
+            make a newborn
+            return: True  - keep going
+                    False - last iteration"""
         self._last_moves.clear()
         self._seen.clear()
         for x,y,(x_new,y_new) in self._moves_buffer:
@@ -193,27 +199,37 @@ class Game():
 
     # getters
     def get_nest(self):
+        """ return a tuple (x,y) of coordinates of the nest """
         return self._nest
 
     def get_width(self):
+        """ return a width of the arena """
         return self._width
 
     def get_height(self):
+        """ return a height of the arena """
         return self._height
 
     def get_walls(self):
+        """ return a BoxContainer containing all walls """
         return self._walls
 
     def get_ants(self):
+        """ return a BoxContainer containing both own and enemious ants """
         return self._ants
 
     def get_timeout(self):
+        """ return a time available for one iteration """
         return self._timeout
 
     def get_players(self):
         return self._players
 
     def get_square(self, x, y):
+        """ return number of what is at coordinates (x,y):
+            -1    wall
+            0     nothin
+            1...  ant belonging to player whose number it is"""
         w=self._walls.get(x,y)
         if w!=None:
             return w
@@ -225,21 +241,21 @@ class Game():
         return 0
 
     def get_iteration(self):
+        """ return the number of current iteration (numbered from 1)"""
         return self._current_iteration
 
     def no_iterations(self):
+        """ return number of iterations in the game"""
         return self._iterations
 
     def no_players(self):
         return len(self._players)
 
-    """ return a box container with moves executed in the last iteration """
     def last_moves(self):
+        """ return a BoxContainer containing all ants that has been moved in the last iteration in the format:
+            for an ant that has moved from (x,y) to (xn,yn) the box contains a tuple (xn,yn) on the (x,y) position"""
         return self._last_moves
 
     def last_kills(self):
+        """ return a boxcontainer containing positions of all ants that has been killed in the last iteration"""
         return self._died
-
-
-if __name__=="__main__":
-    testing=Game("../arenas/testing", "../arenas/testing_out")

@@ -42,10 +42,13 @@ the recursive function is called for an ant that is already in the stack, the
 cycle has been find and in that case no ant can move. The situations bellow
 should be self-explanatory.
 
-	|--------| Every number represents an ant.  |120     | Suppose the
-	following moves: |43    # | 1 -> 2 (means ant no. 1 is going to the
-	position of chararacter 2) |      5 | 2 -> 3; 3 -> 4; 4 -> 1; 0 -> 2 |   9
-	6 | 5 -> #; 6 -> 5 | 7.8    | 7 -> .; 8 -> .; 9 -> 8 |--------|
+	|--------| Every number represents an ant.
+	|120     | Suppose the following moves:
+	|43    # | 1 -> 2 (means ant no. 1 is going to the position of chararacter 2)
+	|      5 | 2 -> 3; 3 -> 4; 4 -> 1; 0 -> 2
+	|   9  6 | 5 -> #; 6 -> 5
+	| 7.8    | 7 -> .; 8 -> .; 9 -> 8
+	|--------| 
 
 No one will move in this situation. Ants `1,2,3,4` create a cycle therefore
 they don't move. `0` is blocked by `2`. `5` can't move because there is a wall
@@ -140,6 +143,32 @@ be found in the programmer's documentation.
 Out\_file format is simple. First there is a list of players followed by a
 blank line. Then specification of walls and then positions of all ants in every
 iterations with iterations being split by a blank line.
+
+## Programmer's documentation
+
+The main flow of the programme is:
+
+    game=Game("in", "out")
+
+	while ...:
+		for pl in game.get_players():
+			pl.run()
+
+		game.next_iteration()
+
+
+Classes:
+
+[Game](game.html)
+
+[PlayerControl](player_control.html)
+
+[PlayerInstance](player_instance.html)
+
+[BoxContainer](box_container.html)
+
+[Exceptions](exceptions.html)
+
 
 
 TODO ACKNOLEDGHEKJASKFJASDKF AS    MFF HONZIK ATD

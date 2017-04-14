@@ -1,4 +1,4 @@
-DOC=src/exceptions.py src/box_container.py
+DOCHTML=doc/exceptions.html doc/box_container.html doc/player_control.html doc/player_instance.html doc/game.html
 
 all: gui test
 
@@ -8,10 +8,14 @@ gui: src/gui/gui.ui
 test:
 	python3 test.py
 
-doc: doc/doc.md $(DOC)
+doc: doc/doc.html $(DOCHTML)
+
+doc/doc.html: doc/doc.md $(DOCHTML)
 	pandoc -o doc/doc.html doc/doc.md -t html -f markdown
-	pydoc -w $(DOC)
-	mv $(DOC) doc/
+
+$(DOCHTML): doc/%.html: src/%.py
+	pydoc -w $<
+	mv `basename $@` doc/
 
 .PHONY: clean
 
