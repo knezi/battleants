@@ -116,11 +116,13 @@ The file for each player looks like:
 
 	from src.player_instance import PlayerInstance
 
-	class Name(PlayerInstance): def __init__(self, *args):
-	super().__init__(*args) # your code for initialization
+	class Name(PlayerInstance):
+		def start(self):
+			# initialization to be done here
 
-		def run(self, kill): # your code run every iteration # move ant ant
-		from (1,1) to (1,2) self._pc.move(1,1,1,2)
+		def run(self, kill): # your code run every iteration
+			# move ant ant from (1,1) to (1,2)
+			self._pc.move(1,1,1,2)
 			
 
 The class must inherit from PlayerInstance and call super method from

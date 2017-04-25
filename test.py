@@ -76,7 +76,7 @@ class TestGame(unittest.TestCase):
         self.assertEqual(ants.get(3,0), None)
 
         last_moves=testing.last_moves()
-        self.assertEqual(last_moves.get(3,0), (3,1))
+        self.assertEqual(last_moves.get(3,0), (3,1,1))
         self.assertEqual(last_moves.get(2,2), None)
         self.assertEqual(last_moves.get(0,3), None)
 
@@ -175,7 +175,7 @@ class TestPlayer(unittest.TestCase):
         self.assertEqual(ants.get(3,2), None)
 
         last_moves=testing.get_players()[0][2]._pc.last_moves()
-        self.assertEqual(last_moves.get(3,0), (3,1))
+        self.assertEqual(last_moves.get(3,0), (3,1,1))
         self.assertEqual(last_moves.get(0,0), None)
         self.assertEqual(last_moves.get(1,0), None)
         self.assertEqual(last_moves.get(2,0), None)

@@ -5,8 +5,8 @@
 10 10
 
 2
-Algo1 255 0 0
-players/algo1.py Algo1
+Attack 255 0 0
+players/attack.py Attack
 0 0
 0 1
 0 2
@@ -23,8 +23,8 @@ players/algo1.py Algo1
 3 1
 4 0
 
-RandomPlayer 0 255 255
-players/random_player.py RandomPlayer
+Algo1 0 255 255
+players/algo1.py Algo1
 20 20
 20 19
 20 18

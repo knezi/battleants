@@ -65,6 +65,9 @@ class Game():
             print("Problems reading input file {}\n".format(in_file))
             raise e
 
+        for _,_,x in self._players:
+            x.start()
+
         # prepare out file
         with open(self._out_file, "w") as w:
             for pl in self._players:
@@ -120,7 +123,7 @@ class Game():
 
         self._seen.insert(x,y,2)
         if len(col)==1 and target_free:
-            self._last_moves.insert(x, y, (x_new, y_new))
+            self._last_moves.insert(x, y, (x_new, y_new, self._ants.get(x,y)))
             return True
         else:
             for x_rem,y_rem in col:
@@ -141,10 +144,11 @@ class Game():
             self._dfs_free_moves(x, y)
 
         # update current position of ants
-        for x,y,(x_new,y_new) in self._last_moves:
-            self._ants.insert(x_new, y_new, self._ants.get(x, y))
+        # must be done in two phases - otherwise we can incidentally erase an ant
+        for x,y,(x_new,y_new,pl) in self._last_moves:
             self._ants.remove(x,y)
-
+        for x,y,(x_new,y_new,pl) in self._last_moves:
+            self._ants.insert(x_new, y_new, pl)
 
         # prepare next iteration
         self._moves_buffer.clear()
@@ -253,7 +257,8 @@ class Game():
 
     def last_moves(self):
         """ return a BoxContainer containing all ants that has been moved in the last iteration in the format:
-            for an ant that has moved from (x,y) to (xn,yn) the box contains a tuple (xn,yn) on the (x,y) position"""
+            the box contains a tuple (xn,yn,pl) on the (x,y) position
+            for an ant beloning to player no pl that has moved from (x,y) to (xn,yn)"""
         return self._last_moves
 
     def last_kills(self):
