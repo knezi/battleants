@@ -1,0 +1,71 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.0 Transitional//EN">
+<html><head><title>Python: module box_container</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+</head><body bgcolor="#f0f0f8">
+
+<table width="100%" cellspacing=0 cellpadding=2 border=0 summary="heading">
+<tr bgcolor="#7799ee">
+<td valign=bottom>&nbsp;<br>
+<font color="#ffffff" face="helvetica, arial">&nbsp;<br><big><big><strong>box_container</strong></big></big></font></td
+><td align=right valign=bottom
+><font color="#ffffff" face="helvetica, arial"><a href=".">index</a><br><a href="file:/home/knezi/Documents/bergen/zapocet/src/box_container.py">/home/knezi/Documents/bergen/zapocet/src/box_container.py</a></font></td></tr></table>
+    <p></p>
+<p>
+<table width="100%" cellspacing=0 cellpadding=2 border=0 summary="section">
+<tr bgcolor="#aa55cc">
+<td colspan=3 valign=bottom>&nbsp;<br>
+<font color="#ffffff" face="helvetica, arial"><big><strong>Modules</strong></big></font></td></tr>
+    
+<tr><td bgcolor="#aa55cc"><tt>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</tt></td><td>&nbsp;</td>
+<td width="100%"><table width="100%" summary="list"><tr><td width="25%" valign=top><a href="src.exceptions.html">src.exceptions</a><br>
+</td><td width="25%" valign=top></td><td width="25%" valign=top></td><td width="25%" valign=top></td></tr></table></td></tr></table><p>
+<table width="100%" cellspacing=0 cellpadding=2 border=0 summary="section">
+<tr bgcolor="#ee77aa">
+<td colspan=3 valign=bottom>&nbsp;<br>
+<font color="#ffffff" face="helvetica, arial"><big><strong>Classes</strong></big></font></td></tr>
+    
+<tr><td bgcolor="#ee77aa"><tt>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</tt></td><td>&nbsp;</td>
+<td width="100%"><dl>
+<dt><font face="helvetica, arial"><a href="builtins.html#object">builtins.object</a>
+</font></dt><dd>
+<dl>
+<dt><font face="helvetica, arial"><a href="box_container.html#BoxContainer">BoxContainer</a>
+</font></dt></dl>
+</dd>
+</dl>
+ <p>
+<table width="100%" cellspacing=0 cellpadding=2 border=0 summary="section">
+<tr bgcolor="#ffc8d8">
+<td colspan=3 valign=bottom>&nbsp;<br>
+<font color="#000000" face="helvetica, arial"><a name="BoxContainer">class <strong>BoxContainer</strong></a>(<a href="builtins.html#object">builtins.object</a>)</font></td></tr>
+    
+<tr bgcolor="#ffc8d8"><td rowspan=2><tt>&nbsp;&nbsp;&nbsp;</tt></td>
+<td colspan=2><tt>Container&nbsp;that&nbsp;allows&nbsp;to&nbsp;store&nbsp;and&nbsp;access&nbsp;elements&nbsp;in&nbsp;two&nbsp;dimensional&nbsp;grid;&nbsp;the&nbsp;memory&nbsp;consumption&nbsp;is&nbsp;linear&nbsp;with&nbsp;the&nbsp;number&nbsp;of&nbsp;elements;&nbsp;average&nbsp;time&nbsp;complexity&nbsp;for&nbsp;access/removal&nbsp;is&nbsp;O(1)<br>&nbsp;</tt></td></tr>
+<tr><td>&nbsp;</td>
+<td width="100%">Methods defined here:<br>
+<dl><dt><a name="BoxContainer-__init__"><strong>__init__</strong></a>(self, width, height)</dt><dd><tt>width&nbsp;and&nbsp;height&nbsp;of&nbsp;the&nbsp;creating&nbsp;container,<br>
+it's&nbsp;important&nbsp;just&nbsp;for&nbsp;bound&nbsp;testing;<br>
+it&nbsp;doesn't&nbsp;affect&nbsp;the&nbsp;memory&nbsp;consumption</tt></dd></dl>
+
+<dl><dt><a name="BoxContainer-__iter__"><strong>__iter__</strong></a>(self)</dt><dd><tt>this&nbsp;makes&nbsp;the&nbsp;container&nbsp;iterable<br>
+try:&nbsp;for&nbsp;el&nbsp;in&nbsp;instance_of_container</tt></dd></dl>
+
+<dl><dt><a name="BoxContainer-clear"><strong>clear</strong></a>(self)</dt><dd><tt>removes&nbsp;all&nbsp;elements&nbsp;in&nbsp;the&nbsp;container</tt></dd></dl>
+
+<dl><dt><a name="BoxContainer-get"><strong>get</strong></a>(self, x, y)</dt><dd><tt>get&nbsp;an&nbsp;element,&nbsp;returns&nbsp;the&nbsp;actual&nbsp;value&nbsp;or&nbsp;None&nbsp;if&nbsp;there's&nbsp;no&nbsp;element&nbsp;on&nbsp;the&nbsp;given&nbsp;position</tt></dd></dl>
+
+<dl><dt><a name="BoxContainer-insert"><strong>insert</strong></a>(self, x, y, val)</dt><dd><tt>insert&nbsp;value&nbsp;on&nbsp;the&nbsp;given&nbsp;position,<br>
+if&nbsp;the&nbsp;position&nbsp;is&nbsp;not&nbsp;empty,&nbsp;the&nbsp;value&nbsp;is&nbsp;overwritten</tt></dd></dl>
+
+<dl><dt><a name="BoxContainer-remove"><strong>remove</strong></a>(self, x, y)</dt><dd><tt>remove&nbsp;an&nbsp;element</tt></dd></dl>
+
+<hr>
+Data descriptors defined here:<br>
+<dl><dt><strong>__dict__</strong></dt>
+<dd><tt>dictionary&nbsp;for&nbsp;instance&nbsp;variables&nbsp;(if&nbsp;defined)</tt></dd>
+</dl>
+<dl><dt><strong>__weakref__</strong></dt>
+<dd><tt>list&nbsp;of&nbsp;weak&nbsp;references&nbsp;to&nbsp;the&nbsp;object&nbsp;(if&nbsp;defined)</tt></dd>
+</dl>
+</td></tr></table></td></tr></table>
+</body></html>
