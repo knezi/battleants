@@ -161,16 +161,16 @@ The main flow of the programme is:
 
 Classes:
 
-[Game](game.html)
+[Game](doc/game.html)
 
-[PlayerControl](player_control.html)
+[PlayerControl](doc/player_control.html)
 
-[PlayerInstance](player_instance.html)
+[PlayerInstance](doc/player_instance.html)
 
-[BoxContainer](box_container.html)
+[BoxContainer](doc/box_container.html)
 
-[Exceptions](exceptions.html)
+[Exceptions](doc/exceptions.html)
 
 
 
-TODO ACKNOLEDGHEKJASKFJASDKF AS    MFF HONZIK ATD
+Semestral work at the faculty of Mathematics and Physics Charles University in Prague
